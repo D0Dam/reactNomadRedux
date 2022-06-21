@@ -1,33 +1,51 @@
 import { createStore } from "redux";
+const form = document.querySelector("form");
+const input = document.querySelector("input");
+const ul = document.querySelector("ul");
 
-const add = document.getElementById("add");
-const minus = document.getElementById("minus");
-const num = document.getElementById("num");
-const ADD = "ADD";
-const MINUS = "MINUS";
+const ADD_TODO = "ADD_TODO";
+const DELETE_TODO = "DELETE_TODO";
 
-const counterReducer = (count = 0, action) => {
-	switch(action.type) {
-		case "add":
-			return count+1;
-		case "minus":
-			return count-1;
+const todoReducer = (state = [], action) => {
+	switch (action.type) {
+		case ADD_TODO:
+			return [...state, { text: action.text, id: Date.now() }];
+		case DELETE_TODO:
+			const cleanState = state.filter((todo) => todo.id !== action.id);
+			return cleanState;
 		default:
-			return count;
-	}
+			return state;
 	}
 };
-let countStore = createStore(counterReducer);
-countStore.subscribe(() => {
-	num.innerText = countStore.getState();
-});
-const handleAdd = () => {
-	countStore.dispatch({ type: ADD });
+const todoStore = createStore(todoReducer);
+const paintToDos = () => {
+	const todos = todoStore.getState();
+	ul.innerHTML = "";
+	todos.forEach((todo) => {
+		const li = document.createElement("li");
+		const btn = document.createElement("button");
+		li.innerText = todo.text;
+		console.log(li);
+		btn.innerText = "delete";
+		btn.addEventListener("click", deleteToDo);
+		li.id = todo.id;
+		ul.appendChild(li);
+		li.appendChild(btn);
+	});
 };
 
-const handleMinus = () => {
-	countStore.dispatch({ type: MINUS });
+const deleteToDo = (e) => {
+	const id = parseInt(e.target.parentNode.id);
+	todoStore.dispatch({ type: DELETE_TODO, id });
+	paintToDos();
 };
 
-add.addEventListener("click", handleAdd);
-minus.addEventListener("click", handleMinus);
+const onSubmit = (e) => {
+	e.preventDefault();
+	const toDo = input.value;
+	input.value = "";
+	todoStore.dispatch({ type: ADD_TODO, text: toDo });
+	paintToDos();
+};
+
+form.addEventListener("submit", onSubmit);
