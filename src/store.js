@@ -8,12 +8,8 @@ const todos = createSlice({
 			console.log(action);
 			state.push({ text: action.payload, id: Date.now() });
 		},
-		remove: (state, action) => {
-			state.filter((todo) => {
-				console.log("remove시 action.payload : " + action.payload);
-				return todo.id !== action.payload;
-			});
-		},
+		remove: (state, action) =>
+			state.filter((todo) => todo.id !== action.payload),
 	},
 });
 
