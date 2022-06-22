@@ -5,11 +5,14 @@ const todos = createSlice({
 	initialState: [],
 	reducers: {
 		add: (state, action) => {
+			console.log(action);
 			state.push({ text: action.payload, id: Date.now() });
 		},
 		remove: (state, action) => {
-			console.log(action.payload);
-			state.filter((todo) => todo.id !== action.payload);
+			state.filter((todo) => {
+				console.log("remove시 action.payload : " + action.payload);
+				return todo.id !== action.payload;
+			});
 		},
 	},
 });

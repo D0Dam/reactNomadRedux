@@ -12,7 +12,7 @@ const Todo = ({ text, onButtonClick, id }) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-	console.log(ownProps.id);
+	console.log("dispatch에 전달되는 id : " + ownProps.id);
 	return {
 		onButtonClick: () => dispatch(remove(ownProps.id)),
 	};
