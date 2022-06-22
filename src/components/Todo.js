@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { deleteTodo } from "../store";
-const Todo = ({ text, onButtonClick }) => {
+const Todo = ({ text, onButtonClick, id }) => {
 	return (
 		<li>
-			{text}
+			<Link to={`/${id}`}>{text}</Link>
 			<button onClick={onButtonClick}>del</button>
 		</li>
 	);

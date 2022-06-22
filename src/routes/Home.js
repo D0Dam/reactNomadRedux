@@ -21,7 +21,7 @@ const Home = ({ todos, dpAddTodo }) => {
 			</form>
 			<ul>
 				{todos.map((todo) => (
-					<Todo {...todo} key={todo.id} />
+					<Todo {...todo} key={todo.id} id={todo.id} />
 				))}
 			</ul>
 		</div>
